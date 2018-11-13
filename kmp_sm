@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int> lp (string b)
+{
+	int i=0;
+	vector<int> lps(b.length());
+	for(int j=1;j<b.length();)
+	{
+		if(b[i]==b[j])
+		{lps[j] = lps[i]+1;j++;i++;}
+		else
+		{
+	    if(i!=0)
+		i=lps[i-1];
+		else
+		{lps[j]=0;j++;}
+		}
+	}
+	return lps;
+}
+int kmp(string a,string b)
+{
+	int m = b.length();int n = a.length();
+	int i =0;int j=0;vector<int> lps = lp(b);
+	while(i<n && j<m)
+	{
+		if(a[i]==b[j])
+		{
+			i++;
+			j++;
+		}
+		else
+		{
+			if(j!=0)
+			j = lps[j-1];
+			else
+			i++;
+		}
+	}
+	if(j==m)
+	return i-m;
+	else
+	return -1;
+}
+int main()
+{
+	string a,b;
+	cin >> a >> b;
+	int m = kmp(a,b);
+	if(m!=-1)
+	cout << "Pattern found at index " << m << endl;
+	else
+	cout << "Pattern not found" << "endl";
+}
