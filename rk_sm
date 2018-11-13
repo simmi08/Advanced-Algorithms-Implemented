@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+#define MOD 10000000001
+using namespace std;
+void rabin_karp(string a, string b, int d)
+{
+	int n = a.length();
+	int m = b.length();
+	int t=0;
+	int p=0;
+	int h = (int)pow(d,m-1) % MOD;
+	for(int i=0;i<m;i++)
+	{
+		t = (t*d + a[i])%MOD;
+		p = (p*d+b[i])% MOD;
+	}
+	for(int s=0;s<=n-m;s++)
+	{
+		if(p==t)
+		{
+			if(b==a.substr(s,m))
+			cout << "Pattern occurs with shift " << s << endl; 
+		}
+		if(s<n-m)
+		{
+			t = (d*(t-a[s]*h)+a[s+m])%MOD;
+			if(t<0)
+			t = t+MOD;
+		}
+	}
+}
+int main()
+{
+	string a,b;int d = 10;
+	cin >> a >> b;
+	rabin_karp(a,b,d);
+	return 0;
+}
